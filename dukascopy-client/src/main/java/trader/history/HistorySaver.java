@@ -33,7 +33,7 @@ public class HistorySaver {
         configuration.subscriptions.add(configuration.instrument);
 
         CurrencyHistoryDB db_connector = new CurrencyHistoryDB(
-                "/Users/vicident/Development/temp/fxpairs.db",
+                args[1],
                 configuration.subscriptions);
 
         // get the instance of the IClient interface
@@ -125,7 +125,7 @@ public class HistorySaver {
                     private boolean stop = false;
 
                     public void dataLoaded(long start, long end, long currentPosition, java.lang.String information)  {
-                        LOGGER.info(information + sdf.format(start) + sdf.format(end) + sdf.format(currentPosition ));
+                        LOGGER.debug(information + sdf.format(start) + sdf.format(end) + sdf.format(currentPosition ));
                     }
 
                     public void loadingFinished(boolean allDataLoaded, long start, long end, long currentPosition) {
