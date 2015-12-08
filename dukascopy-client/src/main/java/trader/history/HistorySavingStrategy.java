@@ -31,6 +31,7 @@ public class HistorySavingStrategy implements IStrategy {
 
     private long current_time;
     private long periodsCounter;
+    private long dayCounter;
 
     public enum TableName {
         OPEN_PRICE,
@@ -106,6 +107,7 @@ public class HistorySavingStrategy implements IStrategy {
         }
 
         periodsCounter = 0;
+        dayCounter = 0;
     }
 
     public void onTick(Instrument instrument, ITick tick) throws JFException {
@@ -145,8 +147,10 @@ public class HistorySavingStrategy implements IStrategy {
 
             periodsCounter++;
 
-            if (periodsCounter % (24 * 60) == 0) {
-                LOGGER.info("DUMP +1 day");
+            if ( (periodsCounter * period.getInterval()/1000) >= (24 * 3600)) {
+                dayCounter++;
+                LOGGER.info(sdf.format(new Date(current_time)) + String.valueOf(dayCounter) + " days have been dumped");
+                periodsCounter = 0;
             }
         }
     }
