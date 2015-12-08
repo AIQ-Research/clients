@@ -50,7 +50,8 @@ public class CurrencyHistoryDB {
             Statement stmt = conn.createStatement();
             try {
                 stmt.setQueryTimeout(TIMEOUT);
-                stmt.executeUpdate( sMakeTable );
+                stmt.executeUpdate(sMakeTable);
+                stmt.execute("pragma synchronous = off;");
             } finally {
                 try { stmt.close(); } catch (Exception ignore) {}
             }
@@ -59,6 +60,7 @@ public class CurrencyHistoryDB {
     }
 
     public void writeRow(String tableName, long time, Map<String, Double> values) {
+
         String sInsertRow = "INSERT INTO " + tableName + " VALUES (" + String.valueOf(time);
         for (String pair: pairs) {
             sInsertRow += ", " + values.get(pair);
